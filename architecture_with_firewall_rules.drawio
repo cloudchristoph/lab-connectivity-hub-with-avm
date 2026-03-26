@@ -1,0 +1,282 @@
+<mxfile host="Electron" version="25.0.0">
+  <diagram id="lab-connectivity-hub-avm" name="Architecture">
+    <mxGraphModel adaptiveColors="auto" pageWidth="1900" pageHeight="1500" dx="1422" dy="762" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" background="default">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+
+        <!-- ==================== EXTERNAL / ON-PREMISES ==================== -->
+        <mxCell id="zone-external" value="External / On-Premises" style="swimlane;startSize=30;fillColor=#ffe6cc;strokeColor=#d79b00;strokeWidth=3;fontStyle=1;fontSize=13;" vertex="1" parent="1">
+          <mxGeometry x="40" y="60" width="340" height="340" as="geometry" />
+        </mxCell>
+
+        <mxCell id="internet" value="" style="image;aspect=fixed;align=center;strokeColor=none;image=img/lib/azure2/networking/Virtual_Networks_Classic.svg;" vertex="1" parent="zone-external">
+          <mxGeometry x="50" y="60" width="60" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="internet-label" value="Internet" style="text;align=center;fontSize=10;" vertex="1" parent="zone-external">
+          <mxGeometry x="50" y="122" width="60" height="20" as="geometry" />
+        </mxCell>
+
+        <mxCell id="onprem" value="" style="image;aspect=fixed;align=center;strokeColor=none;image=img/lib/azure2/networking/On_Premises_Data_Gateways.svg;" vertex="1" parent="zone-external">
+          <mxGeometry x="220" y="60" width="60" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="onprem-label" value="On-Premises&#xa;10.1.0.0/16" style="text;align=center;fontSize=10;" vertex="1" parent="zone-external">
+          <mxGeometry x="200" y="122" width="100" height="30" as="geometry" />
+        </mxCell>
+
+        <mxCell id="localnetgw" value="" style="image;aspect=fixed;align=center;strokeColor=none;image=img/lib/azure2/networking/Local_Network_Gateways.svg;" vertex="1" parent="zone-external">
+          <mxGeometry x="220" y="200" width="60" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="localnetgw-label" value="Local Network&#xa;Gateway" style="text;align=center;fontSize=10;" vertex="1" parent="zone-external">
+          <mxGeometry x="200" y="262" width="100" height="30" as="geometry" />
+        </mxCell>
+
+        <!-- ==================== HUB VIRTUAL NETWORK ==================== -->
+        <mxCell id="hub-vnet" value="Hub Virtual Network&#xa;rg-hub-network-gwc | 10.20.0.0/23" style="swimlane;startSize=40;fillColor=#dae8fc;strokeColor=#6c8ebf;strokeWidth=4;fontStyle=1;fontSize=13;" vertex="1" parent="1">
+          <mxGeometry x="440" y="60" width="1080" height="760" as="geometry" />
+        </mxCell>
+
+        <!-- Subnet: GatewaySubnet -->
+        <mxCell id="subnet-gw" value="GatewaySubnet&#xa;10.20.1.128/26" style="swimlane;startSize=30;fillColor=#f0f8ff;strokeColor=#6c8ebf;strokeWidth=2;dashed=1;dashPattern=8 8;fontSize=11;" vertex="1" parent="hub-vnet">
+          <mxGeometry x="30" y="60" width="220" height="200" as="geometry" />
+        </mxCell>
+        <mxCell id="vpngw" value="" style="image;aspect=fixed;align=center;strokeColor=none;image=img/lib/azure2/networking/Virtual_Network_Gateways.svg;" vertex="1" parent="subnet-gw">
+          <mxGeometry x="80" y="60" width="60" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="vpngw-label" value="VPN Gateway&#xa;VpnGw1AZ" style="text;align=center;fontSize=10;" vertex="1" parent="subnet-gw">
+          <mxGeometry x="65" y="122" width="90" height="30" as="geometry" />
+        </mxCell>
+
+        <!-- Subnet: AzureFirewallSubnet -->
+        <mxCell id="subnet-fw" value="AzureFirewallSubnet&#xa;10.20.0.0/26" style="swimlane;startSize=30;fillColor=#f0f8ff;strokeColor=#6c8ebf;strokeWidth=2;dashed=1;dashPattern=8 8;fontSize=11;" vertex="1" parent="hub-vnet">
+          <mxGeometry x="290" y="60" width="220" height="200" as="geometry" />
+        </mxCell>
+        <mxCell id="firewall" value="" style="image;aspect=fixed;align=center;strokeColor=none;image=img/lib/azure2/networking/Firewalls.svg;" vertex="1" parent="subnet-fw">
+          <mxGeometry x="80" y="55" width="60" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="firewall-label" value="Azure Firewall&#xa;Standard | Force-Tunnel" style="text;align=center;fontSize=10;" vertex="1" parent="subnet-fw">
+          <mxGeometry x="60" y="117" width="100" height="30" as="geometry" />
+        </mxCell>
+
+        <!-- Subnet: AzureFirewallManagementSubnet -->
+        <mxCell id="subnet-fwmgmt" value="AzureFirewallManagementSubnet&#xa;10.20.0.64/26" style="swimlane;startSize=30;fillColor=#f0f8ff;strokeColor=#6c8ebf;strokeWidth=2;dashed=1;dashPattern=8 8;fontSize=11;" vertex="1" parent="hub-vnet">
+          <mxGeometry x="550" y="60" width="240" height="200" as="geometry" />
+        </mxCell>
+        <mxCell id="fw-mgmt-pip" value="" style="image;aspect=fixed;align=center;strokeColor=none;image=img/lib/azure2/networking/Public_IP_Addresses.svg;" vertex="1" parent="subnet-fwmgmt">
+          <mxGeometry x="90" y="55" width="60" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="fw-mgmt-pip-label" value="Firewall Mgmt&#xa;Public IP" style="text;align=center;fontSize=10;" vertex="1" parent="subnet-fwmgmt">
+          <mxGeometry x="75" y="117" width="90" height="30" as="geometry" />
+        </mxCell>
+
+        <!-- Subnet: AzureBastionSubnet -->
+        <mxCell id="subnet-bastion" value="AzureBastionSubnet&#xa;10.20.1.192/26" style="swimlane;startSize=30;fillColor=#f0f8ff;strokeColor=#6c8ebf;strokeWidth=2;dashed=1;dashPattern=8 8;fontSize=11;" vertex="1" parent="hub-vnet">
+          <mxGeometry x="830" y="60" width="220" height="200" as="geometry" />
+        </mxCell>
+        <mxCell id="bastion" value="" style="image;aspect=fixed;align=center;strokeColor=none;image=img/lib/azure2/networking/Bastions.svg;" vertex="1" parent="subnet-bastion">
+          <mxGeometry x="80" y="55" width="60" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="bastion-label" value="Azure Bastion&#xa;Standard" style="text;align=center;fontSize=10;" vertex="1" parent="subnet-bastion">
+          <mxGeometry x="65" y="117" width="90" height="30" as="geometry" />
+        </mxCell>
+
+        <!-- Firewall Policy Resource Group -->
+        <mxCell id="fw-policy-group" value="rg-hub-firewallpolicy-gwc" style="swimlane;startSize=30;fillColor=#e1f5fe;strokeColor=#0288d1;strokeWidth=2;fontSize=11;fontStyle=1;" vertex="1" parent="hub-vnet">
+          <mxGeometry x="30" y="310" width="1030" height="400" as="geometry" />
+        </mxCell>
+
+        <mxCell id="fw-policy" value="" style="image;aspect=fixed;align=center;strokeColor=none;image=img/lib/azure2/networking/Azure_Firewall_Policy.svg;" vertex="1" parent="fw-policy-group">
+          <mxGeometry x="60" y="60" width="60" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="fw-policy-label" value="Firewall Policy&#xa;fwp-hub-germanywestcentral-001&#xa;DNS Proxy: Enabled" style="text;align=center;fontSize=10;" vertex="1" parent="fw-policy-group">
+          <mxGeometry x="30" y="122" width="120" height="45" as="geometry" />
+        </mxCell>
+
+        <!-- IP Groups -->
+        <mxCell id="ipgrp-oad" value="" style="image;aspect=fixed;align=center;strokeColor=none;image=img/lib/azure2/networking/IP_Groups.svg;" vertex="1" parent="fw-policy-group">
+          <mxGeometry x="210" y="60" width="50" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="ipgrp-oad-label" value="IP Group&#xa;oad-azurefirewall&#xa;10.3.1–5.0/24" style="text;align=center;fontSize=9;" vertex="1" parent="fw-policy-group">
+          <mxGeometry x="190" y="112" width="90" height="45" as="geometry" />
+        </mxCell>
+
+        <mxCell id="ipgrp-onprem" value="" style="image;aspect=fixed;align=center;strokeColor=none;image=img/lib/azure2/networking/IP_Groups.svg;" vertex="1" parent="fw-policy-group">
+          <mxGeometry x="320" y="60" width="50" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="ipgrp-onprem-label" value="IP Group&#xa;on-premises&#xa;10.1.0.0/16" style="text;align=center;fontSize=9;" vertex="1" parent="fw-policy-group">
+          <mxGeometry x="300" y="112" width="90" height="45" as="geometry" />
+        </mxCell>
+
+        <mxCell id="ipgrp-cclab" value="" style="image;aspect=fixed;align=center;strokeColor=none;image=img/lib/azure2/networking/IP_Groups.svg;" vertex="1" parent="fw-policy-group">
+          <mxGeometry x="430" y="60" width="50" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="ipgrp-cclab-label" value="IP Group&#xa;cclab&#xa;10.2–3.0.0/16" style="text;align=center;fontSize=9;" vertex="1" parent="fw-policy-group">
+          <mxGeometry x="410" y="112" width="90" height="45" as="geometry" />
+        </mxCell>
+
+        <mxCell id="ipgrp-webapp" value="" style="image;aspect=fixed;align=center;strokeColor=none;image=img/lib/azure2/networking/IP_Groups.svg;" vertex="1" parent="fw-policy-group">
+          <mxGeometry x="540" y="60" width="50" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="ipgrp-webapp-label" value="IP Group&#xa;webapp-demo&#xa;10.2.10.0/24" style="text;align=center;fontSize=9;" vertex="1" parent="fw-policy-group">
+          <mxGeometry x="520" y="112" width="90" height="45" as="geometry" />
+        </mxCell>
+
+        <!-- Application Rule Collection Group -->
+        <mxCell id="rcg-app" value="Application Rule Collection Group (Priority 100)" style="swimlane;startSize=25;fillColor=#fff2cc;strokeColor=#d6b656;strokeWidth=2;fontSize=10;fontStyle=1;" vertex="1" parent="fw-policy-group">
+          <mxGeometry x="40" y="175" width="440" height="180" as="geometry" />
+        </mxCell>
+        <mxCell id="rule-app1" value="allow-outbound-web-traffic&#xa;Sources: oad-azurefirewall + webapp-demo&#xa;Target: * (HTTP:80, HTTPS:443)  →  Allow" style="rounded=1;fillColor=#fffde7;strokeColor=#d6b656;fontSize=9;align=left;" vertex="1" parent="rcg-app">
+          <mxGeometry x="20" y="35" width="400" height="55" as="geometry" />
+        </mxCell>
+        <mxCell id="rule-app2" value="allow-inbound-webapp-demo&#xa;Sources: on-premises + cclab&#xa;Target: appsvc-webapp-demo.azurewebsites.net (HTTPS:443)  →  Allow" style="rounded=1;fillColor=#fffde7;strokeColor=#d6b656;fontSize=9;align=left;" vertex="1" parent="rcg-app">
+          <mxGeometry x="20" y="105" width="400" height="55" as="geometry" />
+        </mxCell>
+
+        <!-- Network Rule Collection Group -->
+        <mxCell id="rcg-net" value="Network Rule Collection Group (Priority 200)" style="swimlane;startSize=25;fillColor=#d5e8d4;strokeColor=#82b366;strokeWidth=2;fontSize=10;fontStyle=1;" vertex="1" parent="fw-policy-group">
+          <mxGeometry x="510" y="175" width="490" height="180" as="geometry" />
+        </mxCell>
+        <mxCell id="rule-net1" value="onprem-to-cloud (Priority 100)&#xa;allow-ping: on-premises → cclab (ICMP)&#xa;allow-administrative-access: on-premises → cclab (TCP/UDP :22, :3389)" style="rounded=1;fillColor=#e8f5e9;strokeColor=#82b366;fontSize=9;align=left;" vertex="1" parent="rcg-net">
+          <mxGeometry x="15" y="35" width="460" height="55" as="geometry" />
+        </mxCell>
+        <mxCell id="rule-net2" value="cloud-to-onprem (Priority 110): allow-ping: cclab → on-premises (ICMP)" style="rounded=1;fillColor=#e8f5e9;strokeColor=#82b366;fontSize=9;align=left;" vertex="1" parent="rcg-net">
+          <mxGeometry x="15" y="100" width="460" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="rule-net3" value="outbound-access-demo (Priority 200): allow-internet-ping: oad-azurefirewall → * (ICMP)" style="rounded=1;fillColor=#e8f5e9;strokeColor=#82b366;fontSize=9;align=left;" vertex="1" parent="rcg-net">
+          <mxGeometry x="15" y="140" width="460" height="30" as="geometry" />
+        </mxCell>
+
+        <!-- ==================== LOG ANALYTICS (optional) ==================== -->
+        <mxCell id="law" value="" style="image;aspect=fixed;align=center;strokeColor=none;image=img/lib/azure2/management_governance/Log_Analytics_Workspaces.svg;" vertex="1" parent="1">
+          <mxGeometry x="440" y="890" width="60" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="law-label" value="Log Analytics Workspace&#xa;(optional – var flag)" style="text;align=center;fontSize=10;" vertex="1" parent="1">
+          <mxGeometry x="410" y="952" width="120" height="30" as="geometry" />
+        </mxCell>
+
+        <!-- ==================== SPOKE VNETS ==================== -->
+        <mxCell id="zone-spoke" value="Spoke VNets (conceptual)&#xa;cclab: 10.2.0.0/16 + 10.3.0.0/16" style="swimlane;startSize=30;fillColor=#d5e8d4;strokeColor=#82b366;strokeWidth=3;fontStyle=1;fontSize=11;" vertex="1" parent="1">
+          <mxGeometry x="1580" y="200" width="280" height="280" as="geometry" />
+        </mxCell>
+        <mxCell id="spoke-vnet" value="" style="image;aspect=fixed;align=center;strokeColor=none;image=img/lib/azure2/networking/Virtual_Networks.svg;" vertex="1" parent="zone-spoke">
+          <mxGeometry x="50" y="55" width="60" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="spoke-vnet-label" value="Spoke VNet A&#xa;10.2.0.0/16" style="text;align=center;fontSize=10;" vertex="1" parent="zone-spoke">
+          <mxGeometry x="35" y="117" width="90" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="spoke-vnet2" value="" style="image;aspect=fixed;align=center;strokeColor=none;image=img/lib/azure2/networking/Virtual_Networks.svg;" vertex="1" parent="zone-spoke">
+          <mxGeometry x="170" y="55" width="60" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="spoke-vnet2-label" value="Spoke VNet B&#xa;10.3.0.0/16" style="text;align=center;fontSize=10;" vertex="1" parent="zone-spoke">
+          <mxGeometry x="155" y="117" width="90" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="webapp-svc" value="" style="image;aspect=fixed;align=center;strokeColor=none;image=img/lib/azure2/networking/Virtual_Networks.svg;" vertex="1" parent="zone-spoke">
+          <mxGeometry x="110" y="185" width="60" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="webapp-svc-label" value="appsvc-webapp-demo&#xa;10.2.10.0/24" style="text;align=center;fontSize=9;" vertex="1" parent="zone-spoke">
+          <mxGeometry x="85" y="215" width="110" height="30" as="geometry" />
+        </mxCell>
+
+        <!-- ==================== EDGES ==================== -->
+
+        <!-- On-prem → Local Net GW → VPN GW -->
+        <mxCell id="e-onprem-localnetgw" value="IPSec / VPN" style="edgeStyle=orthogonalEdgeStyle;strokeColor=#d79b00;strokeWidth=2;fontSize=9;" edge="1" source="onprem" target="localnetgw" parent="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e-localnetgw-vpngw" value="VPN Tunnel" style="edgeStyle=orthogonalEdgeStyle;strokeColor=#d79b00;strokeWidth=2;fontSize=9;" edge="1" source="localnetgw" target="vpngw" parent="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <!-- Internet → Firewall -->
+        <mxCell id="e-inet-fw" value="HTTPS:443 / HTTP:80" style="edgeStyle=orthogonalEdgeStyle;strokeColor=#cc0000;strokeWidth=2;fontSize=9;" edge="1" source="internet" target="firewall" parent="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <!-- VPN GW → Firewall (traffic inspection) -->
+        <mxCell id="e-vpngw-fw" value="Traffic Inspection" style="edgeStyle=orthogonalEdgeStyle;strokeColor=#6666cc;strokeWidth=2;fontSize=9;" edge="1" source="vpngw" target="firewall" parent="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <!-- Firewall → Spoke VNets -->
+        <mxCell id="e-fw-spoke" value="Allow: ICMP / TCP:22,3389" style="edgeStyle=orthogonalEdgeStyle;strokeColor=#82b366;strokeWidth=2;fontSize=9;" edge="1" source="firewall" target="spoke-vnet" parent="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <!-- Firewall → webapp-demo -->
+        <mxCell id="e-fw-webapp" value="HTTPS:443 (allow-inbound-webapp)" style="edgeStyle=orthogonalEdgeStyle;strokeColor=#0288d1;strokeWidth=2;dashed=1;fontSize=9;" edge="1" source="firewall" target="webapp-svc" parent="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <!-- Firewall → Log Analytics (diagnostics) -->
+        <mxCell id="e-fw-law" value="allLogs + AllMetrics" style="edgeStyle=orthogonalEdgeStyle;strokeColor=#666666;strokeWidth=1;dashed=1;fontSize=9;" edge="1" source="firewall" target="law" parent="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <!-- Bastion → Spoke VMs -->
+        <mxCell id="e-bastion-spoke" value="SSH:22 / RDP:3389" style="edgeStyle=orthogonalEdgeStyle;strokeColor=#9c27b0;strokeWidth=2;dashed=1;fontSize=9;" edge="1" source="bastion" target="spoke-vnet2" parent="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <!-- Firewall Policy → Firewall -->
+        <mxCell id="e-policy-fw" value="Attached Policy" style="edgeStyle=orthogonalEdgeStyle;strokeColor=#0288d1;strokeWidth=1;dashed=1;fontSize=9;" edge="1" source="fw-policy" target="firewall" parent="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <!-- ==================== LEGEND ==================== -->
+        <mxCell id="legend" value="Traffic Legend" style="swimlane;startSize=25;fillColor=#ffffff;strokeColor=#333333;strokeWidth=3;fontStyle=1;fontSize=11;" vertex="1" parent="1">
+          <mxGeometry x="40" y="460" width="340" height="230" as="geometry" />
+        </mxCell>
+        <mxCell id="leg1" value="" style="endArrow=block;strokeColor=#cc0000;strokeWidth=3;" edge="1" parent="legend">
+          <mxGeometry relative="0" as="geometry"><mxPoint x="20" y="50" as="sourcePoint" /><mxPoint x="80" y="50" as="targetPoint" /></mxGeometry>
+        </mxCell>
+        <mxCell id="leg1-lbl" value="Internet Ingress/Egress (HTTP/HTTPS)" style="text;fontSize=9;" vertex="1" parent="legend">
+          <mxGeometry x="90" y="38" width="230" height="25" as="geometry" />
+        </mxCell>
+        <mxCell id="leg2" value="" style="endArrow=block;strokeColor=#d79b00;strokeWidth=3;" edge="1" parent="legend">
+          <mxGeometry relative="0" as="geometry"><mxPoint x="20" y="80" as="sourcePoint" /><mxPoint x="80" y="80" as="targetPoint" /></mxGeometry>
+        </mxCell>
+        <mxCell id="leg2-lbl" value="VPN Tunnel (IPSec)" style="text;fontSize=9;" vertex="1" parent="legend">
+          <mxGeometry x="90" y="68" width="230" height="25" as="geometry" />
+        </mxCell>
+        <mxCell id="leg3" value="" style="endArrow=block;strokeColor=#82b366;strokeWidth=3;" edge="1" parent="legend">
+          <mxGeometry relative="0" as="geometry"><mxPoint x="20" y="110" as="sourcePoint" /><mxPoint x="80" y="110" as="targetPoint" /></mxGeometry>
+        </mxCell>
+        <mxCell id="leg3-lbl" value="On-Prem ↔ Cloud (ICMP / TCP:22,3389)" style="text;fontSize=9;" vertex="1" parent="legend">
+          <mxGeometry x="90" y="98" width="230" height="25" as="geometry" />
+        </mxCell>
+        <mxCell id="leg4" value="" style="endArrow=block;strokeColor=#9c27b0;strokeWidth=2;dashed=1;" edge="1" parent="legend">
+          <mxGeometry relative="0" as="geometry"><mxPoint x="20" y="140" as="sourcePoint" /><mxPoint x="80" y="140" as="targetPoint" /></mxGeometry>
+        </mxCell>
+        <mxCell id="leg4-lbl" value="Bastion Admin Access (SSH:22 / RDP:3389)" style="text;fontSize=9;" vertex="1" parent="legend">
+          <mxGeometry x="90" y="128" width="230" height="25" as="geometry" />
+        </mxCell>
+        <mxCell id="leg5" value="" style="endArrow=block;strokeColor=#666666;strokeWidth=1;dashed=1;" edge="1" parent="legend">
+          <mxGeometry relative="0" as="geometry"><mxPoint x="20" y="170" as="sourcePoint" /><mxPoint x="80" y="170" as="targetPoint" /></mxGeometry>
+        </mxCell>
+        <mxCell id="leg5-lbl" value="Diagnostics to Log Analytics" style="text;fontSize=9;" vertex="1" parent="legend">
+          <mxGeometry x="90" y="158" width="230" height="25" as="geometry" />
+        </mxCell>
+        <mxCell id="leg6" value="" style="endArrow=block;strokeColor=#0288d1;strokeWidth=2;dashed=1;" edge="1" parent="legend">
+          <mxGeometry relative="0" as="geometry"><mxPoint x="20" y="200" as="sourcePoint" /><mxPoint x="80" y="200" as="targetPoint" /></mxGeometry>
+        </mxCell>
+        <mxCell id="leg6-lbl" value="Policy Attachment / HTTPS:443 App Rules" style="text;fontSize=9;" vertex="1" parent="legend">
+          <mxGeometry x="90" y="188" width="230" height="25" as="geometry" />
+        </mxCell>
+
+        <!-- ==================== CONVENTIONS BOX ==================== -->
+        <mxCell id="conventions" value="Visual Conventions" style="swimlane;startSize=25;fillColor=#fff9cc;strokeColor=#d6b656;strokeWidth=2;fontSize=10;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="40" y="720" width="340" height="150" as="geometry" />
+        </mxCell>
+        <mxCell id="conv-text" value="VNets: Thick solid borders (strokeWidth=4)&#xa;Subnets: Dashed borders inside VNets&#xa;Resources positioned within their subnet&#xa;Firewall Policy in separate Resource Group&#xa;Log Analytics optional (log_analytics_workspace_id var)" style="text;fontSize=9;align=left;verticalAlign=top;" vertex="1" parent="conventions">
+          <mxGeometry x="15" y="35" width="310" height="100" as="geometry" />
+        </mxCell>
+
+        <!-- ==================== TITLE ==================== -->
+        <mxCell id="title" value="Azure Connectivity Hub – Lab Architecture&#xa;Region: Germany West Central  |  AVM: avm-ptn-alz-connectivity-hub-and-spoke-vnet v0.16.13  |  Terraform ~&gt; 1.14.5" style="text;fontStyle=1;fontSize=14;align=center;" vertex="1" parent="1">
+          <mxGeometry x="440" y="10" width="1080" height="45" as="geometry" />
+        </mxCell>
+
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
