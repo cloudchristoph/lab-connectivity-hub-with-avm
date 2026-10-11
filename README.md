@@ -3,7 +3,7 @@
 This lab demonstrates how to deploy a production-ready Azure connectivity hub using [Azure Verified Modules (AVM)](https://azure.github.io/Azure-Verified-Modules/). It covers the full hub deployment including Azure Firewall, VPN Gateway, and Azure Bastion — all wired up via a single AVM pattern module — as well as a separate Terraform root module for managing Firewall Policy rules and IP Groups.
 
 > **Blog post (German):** A full walkthrough and explanation of this lab is available here:
-> [Hub Deployment mit Azure Verified Modules](https://christoph.vollmann.co/2026/03/hub-deployment-mit-azure-verified-modules/)
+> [Hub Deployment mit Azure Verified Modules](https://cloudchristoph.com/articles/hub-deployment-mit-azure-verified-modules/)
 
 ---
 
@@ -159,4 +159,4 @@ This is an official AVM pattern module that implements the [Azure Landing Zone c
 - [AVM Pattern: ALZ Connectivity Hub and Spoke VNet](https://registry.terraform.io/modules/Azure/avm-ptn-alz-connectivity-hub-and-spoke-vnet/azurerm/latest)
 - [Azure Firewall documentation](https://learn.microsoft.com/azure/firewall/)
 - [Azure Well-Architected Framework – Network topology](https://learn.microsoft.com/azure/well-architected/networking/)
-- [Blog post: Hub Deployment mit Azure Verified Modules (German)](https://christoph.vollmann.co/2026/03/hub-deployment-mit-azure-verified-modules/)
+- [Blog post: Hub Deployment mit Azure Verified Modules (German)](https://cloudchristoph.com/articles/hub-deployment-mit-azure-verified-modules/)
